@@ -1,3 +1,4 @@
+const bodyParser = require('body-parser');
 const express = require('express')
 
 const router = express.Router();
@@ -17,8 +18,13 @@ router.get('/:userID',(req,res,next) =>{
     }
 })
 router.post('/',(req,res,next) =>{
+    const user = {
+        name : req.body.name,
+        password : req.body.password
+    }
     res.status(200).json({
-        message : "user is created" 
+        message : "user is created" ,
+        creteUser : user  
     })
 })
 router.delete('/:userID',(req,res,next) =>{
