@@ -1,25 +1,25 @@
 const bodyParser = require('body-parser');
 const express = require('express')
-const { createUser, getUser, updateUser, deleteUser } = require('../models/users.models');
+const { createDevices,getDevices,updatedevices,deleteDevices} = require('../models/device.models');
 
 const router = express.Router();
 
 
 // Create User
-router.post('/users', async (req, res) => {
-    const {rol, email, password } = req.body;
+router.post('/', async (req, res) => {
+    const {uuid,deviceName,edgeid } = req.body;
     try {
-      const data = await createUser(rol,email, password);
+      const data = await createDevices(uuid,deviceName,edgeid);
       res.status(201).json(data);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   });
 // get user
-  router.get('/users', async (req, res) => {
-    const { email,password } = req.body
+  router.get('/', async (req, res) => {
+    const { uuid } = req.body
     try {
-      const data = await getUser(email,password);
+      const data = await getDevices(uuid);
       res.json(data);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -27,10 +27,10 @@ router.post('/users', async (req, res) => {
   });
   
   // Update User
-  router.put('/users', async (req, res) => {
-    const {uuid,email,password} = req.body;
+  router.put('/', async (req, res) => {
+    const {uuid,deviceName,edgeid,NewEdgeid} = req.body;
     try {
-      const data = await updateUser(uuid,email,password);
+      const data = await updatedevices(uuid,deviceName,edgeid,NewEdgeid);
       res.json(data);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -38,10 +38,10 @@ router.post('/users', async (req, res) => {
   });
   
   // Delete User
-  router.delete('/users', async (req, res) => {
-    const {uuid , email,password } = req.body;
+  router.delete('/', async (req, res) => {
+    const {uuid,edgeid } = req.body;
     try {
-      const data = await deleteUser(email);
+      const data = await deleteDevices(uuid,edgeid);
       res.json(data);
     } catch (error) {
       res.status(500).json({ error: error.message });

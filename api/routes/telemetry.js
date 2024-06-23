@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express')
-const { createUser, getUser, updateUser, deleteUser } = require('../models/users.models');
+const { createUser, getUser, updateUser, deleteUser } = require('../models/telemetry.models');
 
 const router = express.Router();
 

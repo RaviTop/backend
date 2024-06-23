@@ -7,8 +7,9 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser');
 
 //import user and sensor module 
-const sensors = require('./api/routes/sensors');
-const users = require('./api/routes/users')
+const telemetry = require('./api/routes/telemetry');
+const users = require('./api/routes/users');
+const devices = require('./api/routes/devices')
 // create express object 
 const app = express() ;
 
@@ -16,6 +17,8 @@ app.use(morgan('dev'));
 // body parser apply for incomming data 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+
 // resolve the cors error 
 app.use((req,res,next)=>
 {
@@ -27,9 +30,11 @@ app.use((req,res,next)=>
     }
     next();
 });
+
 // route which is handdle by the request 
-app.use('/sensors',sensors)
-app.use('/users',users)
+app.use('/users/telemetry',telemetry)
+app.use('/login',users)
+app.use('/users/devices',devices)
 
 // handling the error 
 app.use((req,res,next)=>{
@@ -47,4 +52,4 @@ app.use((error,req,res,next)=>{
     })
 })
 
-module.exports = app
+module.exports = app 
