@@ -2,14 +2,17 @@
 const supabase = require('../db/database');
 
 // Create User
-async function createDevices(uuid,deviceName,edgeid) {
- 
+async function createTelemetry(edgeid,values) {
+console.log(edgeid,values)
+// const values = JSON.stringify(value)
+
 const { data, error } = await supabase
-  .from('deviceList')
+  .from('telemetry')
   .insert([
-    {uuid,deviceName,edgeid},
+    { edgeid, values},
   ])
   .select()
+          
           
         
   if (error) {
@@ -19,12 +22,12 @@ const { data, error } = await supabase
 }
 
 // Read User
-async function getDevices(uuid) {
+async function getTelemetry(edgeid) {
    
    const { data , error } = await supabase
-    .from('deviceList')
+    .from('telemetry')
     .select("*")
-    .eq('uuid', uuid )
+    .eq('edgeid', edgeid )
 
    console.log(data)
     if(data == null){
@@ -38,11 +41,11 @@ async function getDevices(uuid) {
 
     }
 // Update User
-async function updatedevices(uuid,deviceName,edgeid,NewEdgeid) {
+async function updateTelemetry(edgeid,values,newValue) {
   const { data, error } = await supabase
-    .from('deviceList')
-    .update({"deviceName":deviceName,"edgeid":NewEdgeid})
-    .eq('uuid', uuid)
+    .from('telemetry')
+    .update({"values":newValue})
+    .eq('values', values)
     .eq('edgeid',edgeid)
     .select()
     .single()
@@ -53,14 +56,14 @@ async function updatedevices(uuid,deviceName,edgeid,NewEdgeid) {
 }
 
 // Delete User
-async function deleteDevices(uuid,edgeid) {
+async function deleteTelemetry(edgeid,values=null) {
 
  const {data, error } = await supabase
-    .from('deviceList')
+    .from('telemetry')
     .delete()
-    .eq('uuid',uuid)
     .eq('edgeid', edgeid)
     .select()
+
   if (error) {
      return {message : "invalid edgeid"}
   }
@@ -68,8 +71,8 @@ async function deleteDevices(uuid,edgeid) {
 }
 
 module.exports = {
-  createDevices,
-  getDevices,
-  updatedevices,
-  deleteDevices,
+  createTelemetry,
+  getTelemetry,
+  updateTelemetry,
+  deleteTelemetry,
 };
